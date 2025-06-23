@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin Martínez | Entrenador Personal & Nutricionista</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Orbitron for titles, Inter for body text -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Define custom colors as CSS variables for easy use and theming */
+        :root {
+            --color-black-bg: #000000;
+            --color-lime-green: #a2ff00;
+            --color-golden-yellow: #ffd700;
+            --color-white: #ffffff;
+            --color-light-gray: #e0e0e0;
+            --color-dark-gray-text: #bdbdbd; /* For subtle text */
+            --color-card-bg: #1a1a1a; /* Darker than black-bg for cards */
+        }
+
+        /* Apply custom colors using Tailwind's arbitrary values or via custom CSS */
+        .bg-black-bg { background-color: var(--color-black-bg); }
+        .text-lime-green { color: var(--color-lime-green); }
+        .text-golden-yellow { color: var(--color-golden-yellow); }
+        .bg-lime-green { background-color: var(--color-lime-green); }
+        .bg-golden-yellow { background-color: var(--color-golden-yellow); }
+        .bg-card-bg { background-color: var(--color-card-bg); }
+        .border-lime-green { border-color: var(--color-lime-green); }
+        .border-golden-yellow { border-color: var(--color-golden-yellow); }
+
+        /* Custom fonts */
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+
+        /* Custom scrollbar for dark theme */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        body::-webkit-scrollbar-track {
+            background: var(--color-black-bg);
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: var(--color-golden-yellow);
+            border-radius: 20px;
+            border: 2px solid var(--color-black-bg);
+        }
+
+        /* Hero section specific gradient and overlay */
+        .hero-background {
+            background-image: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Foto+Kevin+Martinez+Fondo'); /* Placeholder for foto-kevin.png */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.95) 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        /* Gradient for buttons and specific elements */
+        .btn-gradient-hover {
+            background: linear-gradient(45deg, var(--color-lime-green), var(--color-golden-yellow));
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-gradient-hover:hover {
+            background: linear-gradient(45deg, var(--color-golden-yellow), var(--color-lime-green));
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Card hover effects */
+        .card-animate {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+        }
+        .card-animate:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border-color: var(--color-lime-green);
+        }
+
+        /* Fixed header shadow */
+        .header-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Mobile Menu Specific Styles */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 49; /* Below header, above content */
+            display: none; /* Hidden by default */
+        }
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Start off-screen */
+            width: 70%; /* Adjust as needed */
+            max-width: 300px;
+            height: 100%;
+            background-color: var(--color-card-bg);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 51;
+            transition: right 0.3s ease-in-out;
+            padding-top: 5rem; /* Space for fixed header */
+        }
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        /* Scroll Reveal Animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover Zoom for Transformation Images */
+        .transform-card-img-hover img {
+            transition: transform 0.3s ease-in-out;
+        }
+        .transform-card-img-hover img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: #25d366; /* WhatsApp Green */
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease-in-out;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-black-bg text-white font-inter antialiased min-h-screen flex flex-col">
+
+    <!-- Header Fijo y Minimalista -->
+    <header class="fixed top-0 left-0 w-full bg-black-bg z-50 py-4 px-6 md:px-12 header-shadow">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo de Kevin -->
+            <a href="#hero" class="flex items-center space-x-2" aria-label="Volver al inicio de la página">
+                <img src="https://placehold.co/50x50/000000/ffd700?text=KM" alt="Logo de Kevin Martínez" class="w-10 h-10 rounded-full border-2 border-lime-green">
+                <span class="text-xl font-orbitron font-bold text-white hidden sm:block">Kevin Martínez</span>
+            </a>
+            <!-- Botón de Menú Hamburguesa (solo para móviles) -->
+            <button id="menu-toggle" class="md:hidden text-white focus:outline-none" aria-label="Abrir menú de navegación">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+            <!-- Menú de Navegación (Desktop) -->
+            <nav class="hidden md:block">
+                <ul class="flex space-x-4 sm:space-x-8 text-lg font-semibold">
+                    <li><a href="#hero" class="hover:text-lime-green transition duration-300">Inicio</a></li>
+                    <li><a href="#services" class="hover:text-lime-green transition duration-300">Servicios</a></li>
+                    <li><a href="#transformations" class="hover:text-lime-green transition duration-300">Transformaciones</a></li>
+                    <li><a href="#contact" class="hover:text-lime-green transition duration-300">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Overlay y Menú Móvil -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
+    <nav id="mobile-nav" class="mobile-nav">
+        <button id="close-menu" class="absolute top-4 right-6 text-white focus:outline-none" aria-label="Cerrar menú de navegación">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <ul class="flex flex-col items-center space-y-8 text-xl font-semibold mt-16">
+            <li><a href="#hero" class="block py-2 hover:text-lime-green transition duration-300" onclick="closeMobileMenu()">Inicio</a></li>
+            <li><a href="#services" class="block py-2 hover:text-lime-green transition duration-300" onclick="closeMobileMenu()">Servicios</a></li>
+            <li><a href="#transformations" class="block py-2 hover:text-lime-green transition duration-300" onclick="closeMobileMenu()">Transformaciones</a></li>
+            <li><a href="#contact" class="block py-2 hover:text-lime-green transition duration-300" onclick="closeMobileMenu()">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sección HERO -->
+    <section id="hero" class="relative hero-background min-h-screen flex items-center justify-center text-center py-20 md:py-0 pt-20 scroll-reveal" aria-label="Bienvenida a Kevin Martínez Entrenador y Nutricionista">
+        <div class="hero-overlay"></div>
+        <div class="relative z-10 p-6 sm:p-8 md:p-12 max-w-5xl mx-auto flex flex-col md:flex-row items-center md:justify-center gap-8">
+            <!-- Foto de Kevin -->
+            <div class="flex-shrink-0">
+                <img src="https://placehold.co/300x300/333333/FFFFFF?text=Foto+Kevin" alt="Foto profesional de Kevin Martínez, entrenador personal y nutricionista" class="w-60 h-60 md:w-80 md:h-80 rounded-full border-4 border-golden-yellow shadow-2xl object-cover transform hover:scale-105 transition duration-500 ease-in-out">
+            </div>
+            <div class="md:text-left md:ml-8 mt-8 md:mt-0">
+                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-orbitron font-bold text-white leading-tight mb-4 drop-shadow-lg">
+                    Transforma tu cuerpo. <span class="text-lime-green">Domina tu mente.</span>
+                </h1>
+                <p class="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-6 font-semibold">
+                    Entrenador Personal & Nutricionista
+                </p>
+                <a href="#services" class="inline-block px-10 py-4 rounded-full font-bold text-lg sm:text-xl animated-btn btn-gradient-hover text-black shadow-lg" aria-label="Ver planes de entrenamiento personalizados">
+                    Ver planes personalizados
+                    <i class="fas fa-arrow-down ml-3 text-white"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main class="flex-grow container mx-auto px-4 py-16">
+
+        <!-- Sección "Sobre Mí" -->
+        <section id="about" class="mb-24 text-center p-6 bg-card-bg rounded-2xl shadow-xl border-2 border-lime-green scroll-reveal" aria-label="Información sobre Kevin Martínez">
+            <h2 class="text-4xl font-orbitron font-bold text-golden-yellow mb-8 drop-shadow-lg">Sobre Mí</h2>
+            <p class="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                Mi pasión es transformar vidas a través del entrenamiento físico y la nutrición. Como tu entrenador personal y nutricionista, me comprometo a guiarte con disciplina, ciencia y planes adaptados a tus necesidades. Mi enfoque va más allá de los músculos; se trata de resultados reales, sostenibilidad y bienestar integral.
+            </p>
+            <p class="text-2xl font-semibold text-lime-green mt-6 italic">
+                "Tu salud, mi misión. Más que músculos, resultados reales."
+            </p>
+        </section>
+
+        <!-- Sección de Servicios -->
+        <section id="services" class="mb-24 scroll-reveal" aria-label="Servicios de Kevin Martínez">
+            <h2 class="text-5xl font-orbitron font-bold text-center text-golden-yellow mb-16 drop-shadow-lg">Mis Servicios</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Tarjeta de Servicio 1: Entrenamiento Personalizado -->
+                <div class="bg-card-bg rounded-2xl shadow-xl p-8 text-center card-animate border-2 border-transparent">
+                    <i class="fas fa-dumbbell text-lime-green text-6xl mb-6"></i>
+                    <h3 class="text-3xl font-orbitron font-semibold text-white mb-4">Entrenamiento Personalizado</h3>
+                    <p class="text-gray-300 leading-relaxed">Diseño programas de entrenamiento a medida, adaptados a tus metas, nivel y el ambiente que elijas (casa o gimnasio).</p>
+                </div>
+                <!-- Tarjeta de Servicio 2: Planes de Nutrición -->
+                <div class="bg-card-bg rounded-2xl shadow-xl p-8 text-center card-animate border-2 border-transparent">
+                    <i class="fas fa-carrot text-golden-yellow text-6xl mb-6"></i>
+                    <h3 class="text-3xl font-orbitron font-semibold text-white mb-4">Planes de Nutrición</h3>
+                    <p class="text-gray-300 leading-relaxed">Asesoría integral para que aprendas a nutrir tu cuerpo de forma inteligente, creando hábitos saludables y sostenibles.</p>
+                </div>
+                <!-- Tarjeta de Servicio 3: Seguimiento y Evaluación -->
+                <div class="bg-card-bg rounded-2xl shadow-xl p-8 text-center card-animate border-2 border-transparent">
+                    <i class="fas fa-chart-line text-lime-green text-6xl mb-6"></i>
+                    <h3 class="text-3xl font-orbitron font-semibold text-white mb-4">Seguimiento y Evaluación</h3>
+                    <p class="text-gray-300 leading-relaxed">Monitoreo constante de tu progreso, ajustes estratégicos y apoyo continuo para asegurar que siempre alcances tus metas.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Llamado a la Acción Intermedio -->
+        <section class="text-center bg-card-bg rounded-2xl shadow-xl p-8 md:p-12 border-2 border-golden-yellow mb-24 scroll-reveal" aria-label="Llamado a la acción para iniciar la transformación">
+            <h2 class="text-4xl sm:text-5xl font-orbitron font-bold text-lime-green mb-8 drop-shadow-lg">¿Listo para transformar tu vida?</h2>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto mb-10">
+                Es el momento de dar el primer paso hacia una versión más fuerte y saludable de ti mismo.
+            </p>
+            <a href="#contact" class="inline-block px-10 py-4 rounded-full font-bold text-lg sm:text-xl animated-btn btn-gradient-hover text-black shadow-lg" aria-label="Contactar a Kevin para iniciar tu transformación">
+                ¡Quiero empezar ahora!
+                <i class="fas fa-arrow-right ml-3 text-white"></i>
+            </a>
+        </section>
+
+        <!-- Sección de Transformaciones (Antes/Después) -->
+        <section id="transformations" class="mb-24 scroll-reveal" aria-label="Galería de transformaciones de clientes">
+            <h2 class="text-5xl font-orbitron font-bold text-center text-golden-yellow mb-16 drop-shadow-lg">Transformaciones Reales</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Tarjeta de Transformación 1 -->
+                <div class="bg-card-bg rounded-2xl shadow-xl p-6 card-animate border-2 border-transparent hover:border-golden-yellow transform-card-img-hover">
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-4">
+                        <img src="https://placehold.co/180x250/333333/FFFFFF?text=Antes+1" alt="Foto de un cliente antes de su transformación" class="w-full md:w-1/2 rounded-lg object-cover border border-gray-700 shadow-md">
+                        <img src="https://placehold.co/180x250/555555/FFFFFF?text=Despues+1" alt="Foto de un cliente después de su transformación" class="w-full md:w-1/2 rounded-lg object-cover border border-gray-700 shadow-md">
+                    </div>
+                    <p class="text-gray-300 text-center text-base italic mt-2">"Increíble cambio en solo 12 semanas. ¡Resultados que hablan por sí mismos!"</p>
+                </div>
+                <!-- Tarjeta de Transformación 2 -->
+                <div class="bg-card-bg rounded-2xl shadow-xl p-6 card-animate border-2 border-transparent hover:border-golden-yellow transform-card-img-hover">
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-4">
+                        <img src="https://placehold.co/180x250/333333/FFFFFF?text=Antes+2" alt="Foto de un cliente antes de su transformación, mostrando su progreso" class="w-full md:w-1/2 rounded-lg object-cover border border-gray-700 shadow-md">
+                        <img src="https://placehold.co/180x250/555555/FFFFFF?text=Despues+2" alt="Foto de un cliente después de su transformación, con resultados visibles" class="w-full md:w-1/2 rounded-lg object-cover border border-gray-700 shadow-md">
+                    </div>
+                    <p class="text-gray-300 text-center text-base italic mt-2">"La dedicación paga. ¡Un antes y un después que inspira!"</p>
+                </div>
+                <!-- Tarjeta de Transformación 3 -->
+                <div class="bg-card-bg rounded-2xl shadow-xl p-6 card-animate border-2 border-transparent hover:border-golden-yellow transform-card-img-hover">
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-4">
+                        <img src="https://placehold.co/180x250/333333/FFFFFF?text=Antes+3" alt="Foto de un cliente antes de su transformación, mostrando su punto de partida" class="w-full md:w-1/2 rounded-lg object-cover border border-gray-700 shadow-md">
+                        <img src="https://placehold.co/180x250/555555/FFFFFF?text=Despues+3" alt="Foto de un cliente después de su transformación, destacando su logro" class="w-full md:w-1/2 rounded-lg object-cover border border-gray-700 shadow-md">
+                    </div>
+                    <p class="text-gray-300 text-center text-base italic mt-2">"Más allá de lo físico: una transformación completa de vida."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonios breves de clientes -->
+        <section id="testimonials" class="mb-24 scroll-reveal" aria-label="Testimonios de clientes satisfechos">
+            <h2 class="text-5xl font-orbitron font-bold text-center text-golden-yellow mb-16 drop-shadow-lg">Lo que dicen mis clientes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Testimonio 1 -->
+                <div class="bg-card-bg rounded-2xl shadow-xl p-8 card-animate border-2 border-transparent hover:border-lime-green">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/60x60/888888/FFFFFF?text=SR" alt="Foto de perfil de Sofía R." class="rounded-full w-16 h-16 object-cover mr-4 border-2 border-golden-yellow">
+                        <div>
+                            <div class="flex text-golden-yellow mb-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-white font-semibold text-lg">- Sofía R.</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 italic mb-4">"Kevin no solo es un excelente entrenador, es un motivador. Sus planes son efectivos y el apoyo constante. ¡Mi energía y físico han mejorado drásticamente!"</p>
+                </div>
+                <!-- Testimonio 2 -->
+                <div class="bg-card-bg rounded-2xl shadow-xl p-8 card-animate border-2 border-transparent hover:border-lime-green">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/60x60/888888/FFFFFF?text=DP" alt="Foto de perfil de Daniel P." class="rounded-full w-16 h-16 object-cover mr-4 border-2 border-golden-yellow">
+                        <div>
+                            <div class="flex text-golden-yellow mb-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <p class="text-white font-semibold text-lg">- Daniel P.</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 italic mb-4">"La asesoría nutricional de Kevin me abrió los ojos. Aprendí a comer de forma inteligente y ahora disfruto cada comida sabiendo que estoy nutriendo mi cuerpo."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Pregúntale a Kevin IA -->
+        <section id="ai-coach" class="text-center bg-card-bg rounded-2xl shadow-xl p-8 md:p-12 border-2 border-lime-green mb-24 scroll-reveal" aria-label="Sección de preguntas y respuestas con Kevin IA">
+            <h2 class="text-5xl font-orbitron font-bold text-golden-yellow mb-8 drop-shadow-lg">Pregúntale a Kevin IA ✨</h2>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto mb-10">
+                ¿Tienes alguna duda rápida sobre entrenamiento o nutrición? ¡Mi asistente virtual te puede dar una orientación!
+            </p>
+            <div class="max-w-xl mx-auto p-8 bg-black-bg rounded-xl shadow-inner border border-golden-yellow">
+                <textarea id="ai-question-input" rows="4" placeholder="Ej: ¿Qué ejercicios son buenos para principiantes?" class="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-lime-green focus:outline-none border-2 border-transparent focus:border-lime-green mb-6" aria-label="Campo para escribir tu pregunta al asistente de IA"></textarea>
+                <button id="get-ai-answer-btn" class="w-full px-8 py-4 rounded-full font-bold text-xl animated-btn btn-gradient-hover text-black shadow-lg" aria-label="Obtener respuesta del asistente de IA">
+                    Obtener Respuesta ✨
+                    <i class="fas fa-robot ml-3 text-white"></i>
+                </button>
+                <div id="ai-answer-output" class="mt-8 p-4 bg-gray-800 rounded-lg text-left text-gray-200 border border-gray-700 hidden">
+                    <p class="text-golden-yellow font-semibold mb-2">Respuesta de Kevin IA:</p>
+                    <div id="ai-response-content"></div>
+                </div>
+                <div id="ai-loading-indicator" class="mt-8 text-center hidden">
+                    <i class="fas fa-spinner fa-spin text-lime-green text-3xl"></i>
+                    <p class="text-gray-400 mt-2">Pensando...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulario de contacto y botones de contacto directo -->
+        <section id="contact" class="text-center bg-card-bg rounded-2xl shadow-xl p-8 md:p-12 border-2 border-lime-green scroll-reveal" aria-label="Sección de contacto y formulario">
+            <h2 class="text-5xl font-orbitron font-bold text-golden-yellow mb-12 drop-shadow-lg">¡Contacta a Kevin!</h2>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto mb-10">
+                ¿Listo para transformar tu vida? Completa el formulario o contáctame directamente.
+            </p>
+
+            <!-- Botones de Contacto Directo -->
+            <div class="flex flex-col sm:flex-row justify-center gap-6 mb-12">
+                <a href="https://wa.me/573015195989" target="_blank" class="flex items-center justify-center px-10 py-4 rounded-full font-bold text-lg sm:text-xl animated-btn btn-gradient-hover text-black shadow-lg" aria-label="Contactar a Kevin por WhatsApp">
+                    <i class="fab fa-whatsapp text-3xl mr-3 text-white"></i>
+                    WhatsApp
+                </a>
+                <a href="https://instagram.com/kevin__ptrainer" target="_blank" class="flex items-center justify-center px-10 py-4 rounded-full font-bold text-lg sm:text-xl animated-btn btn-gradient-hover text-black shadow-lg" aria-label="Visitar el Instagram de Kevin Martínez">
+                    <i class="fab fa-instagram text-3xl mr-3 text-white"></i>
+                    Instagram
+                </a>
+            </div>
+
+            <!-- Formulario de Contacto -->
+            <form action="https://formsubmit.co/zzzesmo@gmail.com" method="POST" class="space-y-6">
+    <input type="hidden" name="_captcha" value="false">
+
+    <div>
+        <label for="name" class="sr-only">Tu Nombre Completo</label>
+        <input type="text" id="name" name="name" placeholder="Tu Nombre Completo" required class="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-lime-green focus:outline-none border-2 border-transparent focus:border-lime-green" aria-label="Campo para el nombre completo">
+    </div>
+
+    <div>
+        <label for="email" class="sr-only">Tu Correo Electrónico</label>
+        <input type="email" id="email" name="email" placeholder="Tu Correo Electrónico" required class="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-lime-green focus:outline-none border-2 border-transparent focus:border-lime-green" aria-label="Campo para el correo electrónico">
+    </div>
+
+    <div>
+        <label for="message" class="sr-only">Tu Mensaje</label>
+        <textarea id="message" name="message" rows="6" placeholder="Tu Mensaje" required class="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-lime-green focus:outline-none border-2 border-transparent focus:border-lime-green" aria-label="Campo para el mensaje"></textarea>
+    </div>
+
+    <button type="submit" class="w-full px-8 py-4 rounded-full font-bold text-xl animated-btn btn-gradient-hover text-black shadow-lg" aria-label="Enviar mensaje a Kevin Martínez">
+        Enviar Mensaje
+        <i class="fas fa-paper-plane ml-3 text-white"></i>
+    </button>
+</form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/573015195989" target="_blank" class="whatsapp-float" aria-label="Contactar a Kevin Martínez por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer Elegante -->
+    <footer class="bg-card-bg text-gray-400 py-8 px-4 mt-16 text-center rounded-t-3xl shadow-inner border-t-2 border-golden-yellow" aria-label="Pie de página del sitio web de Kevin Martínez">
+        <div class="container mx-auto">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://www.instagram.com/kevinp_trainer/" target="_blank" class="text-2xl hover:text-lime-green transition duration-300" aria-label="Visitar Instagram de Kevin Martínez"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/573015195989" target="_blank" class="text-2xl hover:text-lime-green transition duration-300" aria-label="Contactar a Kevin Martínez por WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="mailto:info@kevinpmartinez.com" class="text-2xl hover:text-lime-green transition duration-300" aria-label="Enviar correo electrónico a Kevin Martínez"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p class="text-base text-gray-400">&copy; <span id="current-year"></span> Kevin Martínez. Todos los derechos reservados.</p>
+            <p class="text-sm mt-2 text-gray-500">Diseñado con pasión por la transformación.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript para interacciones y animaciones -->
+    <script>
+        // Funcionalidad del Menú Hamburguesa
+        const menuToggle = document.getElementById('menu-toggle');
+        const closeMenu = document.getElementById('close-menu');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+
+        function openMobileMenu() {
+            mobileNav.classList.add('active');
+            mobileMenuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Evita el scroll del cuerpo
+        }
+
+        function closeMobileMenu() {
+            mobileNav.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restaura el scroll del cuerpo
+        }
+
+        menuToggle.addEventListener('click', openMobileMenu);
+        closeMenu.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu); // Cierra al hacer clic fuera del menú
+
+        // Actualiza dinámicamente el año actual en el pie de página
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Scroll Reveal Animation (Intersection Observer)
+        const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+
+        const observerOptions = {
+            root: null, // viewport as the root
+            rootMargin: '0px',
+            threshold: 0.1 // percentage of element visible to trigger
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, observerOptions);
+
+        scrollRevealElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Funcionalidad del Kevin IA (Gemini API)
+        const getAiAnswerBtn = document.getElementById('get-ai-answer-btn');
+        const aiQuestionInput = document.getElementById('ai-question-input');
+        const aiAnswerOutput = document.getElementById('ai-answer-output');
+        const aiResponseContent = document.getElementById('ai-response-content');
+        const aiLoadingIndicator = document.getElementById('ai-loading-indicator');
+
+        getAiAnswerBtn.addEventListener('click', async () => {
+            const prompt = aiQuestionInput.value.trim();
+            if (!prompt) {
+                aiAnswerOutput.classList.remove('hidden');
+                aiResponseContent.innerHTML = '<p class="text-red-500">Por favor, escribe tu pregunta.</p>';
+                return;
+            }
+
+            aiAnswerOutput.classList.add('hidden');
+            aiLoadingIndicator.classList.remove('hidden');
+            aiResponseContent.innerHTML = ''; // Clear previous answer
+
+            try {
+                let chatHistory = [];
+                // It's good practice to set some context for the LLM.
+                chatHistory.push({ role: "user", parts: [{ text: `Actúa como un experto en entrenamiento personal y nutrición. Responde a la siguiente pregunta de forma concisa y útil, como si fueras Kevin Martínez. Pregunta: ${prompt}` }] });
+
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // Canvas will provide this at runtime if empty
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    aiResponseContent.innerHTML = `<p>${text}</p>`;
+                } else {
+                    aiResponseContent.innerHTML = '<p class="text-red-500">No pude generar una respuesta. Por favor, intenta de nuevo.</p>';
+                }
+            } catch (error) {
+                console.error("Error al llamar a la API de Gemini:", error);
+                aiResponseContent.innerHTML = '<p class="text-red-500">Ocurrió un error al obtener la respuesta. Intenta de nuevo más tarde.</p>';
+            } finally {
+                aiLoadingIndicator.classList.add('hidden');
+                aiAnswerOutput.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
