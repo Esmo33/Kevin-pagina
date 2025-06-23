@@ -503,7 +503,7 @@
                 chatHistory.push({ role: "user", parts: [{ text: `Actúa como un experto en entrenamiento personal y nutrición. Responde a la siguiente pregunta de forma concisa y útil, como si fueras Kevin Martínez. Pregunta: ${prompt}` }] });
 
                 const payload = { contents: chatHistory };
-                const apiKey = ""; // Canvas will provide this at runtime if empty
+                const apiKey = "AIzaSyDfe92mBkFn9R45QRxZ5pfSj2mGEen9k5I"; // Canvas will provide this at runtime if empty
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 const response = await fetch(apiUrl, {
